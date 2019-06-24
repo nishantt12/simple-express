@@ -3,11 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Funtooler",
-    "description": "Funtooler User Service",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+    "description": "Funtooler User Service"
   },
   "host": "localhost:9000",
   "basePath": "/api",
