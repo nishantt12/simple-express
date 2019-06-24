@@ -15,6 +15,10 @@ var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
+if(process.env.IP){
+  swaggerDocument.host = process.env.IP+":9000";
+}
+
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 console.log("env: "+process.env.NODE_ENV+"  "+app.get('env'));
