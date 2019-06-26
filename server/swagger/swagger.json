@@ -51,7 +51,7 @@
           }
         ],
         "tags": [
-          "Users"
+          "Signup Flow"
         ],
         "summary": "Get all users in system",
         "responses": {
@@ -68,7 +68,7 @@
     "/users/create": {
       "post": {
         "tags": [
-          "Users"
+          "Signup Flow"
         ],
         "description": "Create new user in system",
         "parameters": [
@@ -97,7 +97,7 @@
     "/users/login": {
       "post": {
         "tags": [
-          "Users"
+          "Signup Flow"
         ],
         "description": "Create new user in system",
         "parameters": [
@@ -118,6 +118,36 @@
             "description": "New user is created",
             "schema": {
               "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
+    "/users/verifyOtp": {
+      "post": {
+        "tags": [
+          "Verify Otp"
+        ],
+        "description": "Verify otp sent to Device",
+        "parameters": [
+          {
+            "name": "otp",
+            "in": "body",
+            "description": "Otp that we want to verify",
+            "schema": {
+              "$ref": "#/definitions/Otp"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp is Verified",
+            "schema": {
+              "$ref": "#/definitions/Otp"
             }
           }
         }
@@ -224,6 +254,27 @@
     "Users": {
       "type": "array",
       "$ref": "#/definitions/User"
+    },
+    "Otp": {
+      "required": [
+        "_id",
+        "otp",
+        "phone"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "otp": {
+          "type": "string"
+        }
+        ,
+        "phone": {
+          "type": "string"
+        }
+        
+      }
     }
   }
 }

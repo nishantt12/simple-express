@@ -285,7 +285,7 @@ exports.create = function (req, res) {
   exports.verifyOtp = function (req, res) {
     var phone = req.body.phone
     var otpClaim = req.body.otp
-    var userId = req.body.user_id;
+    var userId = req.body._id;
   
     if (!phone) return Errors.errorMissingParam(res, 'phone');
     if (!userId) return Errors.errorMissingParam(res, 'user id');
