@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var User = require('./user.model');
+var User = require('../models/user.model');
 
 
 function handleError (res, err) {
@@ -83,3 +83,59 @@ exports.destroy = function (req, res) {
     });
   });
 };
+
+
+var external;
+
+external = {
+// create user
+createUser = function createUser(user, res) {
+  User.create(user, function (err, user) {
+    console.log("createUser  "+err);
+    if (err) {
+      console.log(err);
+      Success.errorResponse(res, "email already exists", 500, "email already exists");
+    }
+    else {
+      var token = jwt.sign(
+        {_id: user._id},
+        config.secrets.session,
+        {expiresInMinutes: 10 * 365 * 24 * 60}
+      );
+      createOtp(user._id, user.phone, function (otp) {
+        var response = {
+          'otp': otp,
+          'token': token,
+          'user': user
+        };
+        Email.welcome(user.email);
+        return Success.successResponse(res, response, 200);
+      });
+    }
+  });
+},
+
+createOtp = function createOtp(userId, phone, callBack) {
+
+
+  if (!userId) return Errors.errorMissingParam(res, 'user id');
+  if (!phone) return Errors.errorMissingParam(res, 'phone');
+
+  UserObj.findOneAsync({'_id': userId})
+    .then(function (user) {
+        if (user) {
+          // if ( isResend ) return OtpController.resendOtp( req, res, user );
+          OtpController.createOtp(phone, callBack);
+        }
+
+        else return Errors.errorDBNotFound(res, 'User');
+      },
+      function (err) {
+        console.log(err)
+        Errors.errorServer(res, err);
+      })
+}
+
+};  
+
+module.exports = external;

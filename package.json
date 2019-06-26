@@ -45,7 +45,17 @@
     "morgan": "^1.5.1",
     "ripe": "^0.2.0",
     "swagger-ui": "^3.22.3",
-    "swagger-ui-express": "^4.0.6"
+    "swagger-ui-express": "^4.0.6",
+    "fb": "^1.0.2",
+    "fcm": "^1.0.3",
+    "jsonwebtoken": "^5.0.0",
+    "node-gcm": "^0.14.4",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "aws-sdk": "^2.5.5",
+    "express-jwt": "^3.0.0",
+    "node-uuid": "^1.4.7",
+    "bluebird": "^3.4.0"
   },
   "scripts": {
     "start": "node server/server.js",
