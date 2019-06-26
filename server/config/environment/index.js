@@ -14,6 +14,9 @@ var all = {
         safe: true
       }
     }
+  },
+  secrets: {
+    session: process.env.SESSION_SECRET || 'secretKey'
   }
 };
 

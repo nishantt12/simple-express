@@ -11,6 +11,7 @@ var UserSchema = new Schema({
   fullName: {type: String, required: true},
   username: {type: String, required: true},
   email: {type: String, lowercase: true},
+  password: String,
   mobileNumber: String,
   password: String,
   country: String,

@@ -24,6 +24,48 @@
   ],
   "paths": {
     "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/users/me/{userId}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+
+    "/users/create": {
       "post": {
         "tags": [
           "Users"
@@ -50,22 +92,38 @@
             }
           }
         }
-      },
-      "get": {
+      }
+    },
+    "/users/login": {
+      "post": {
         "tags": [
           "Users"
         ],
-        "summary": "Get all users in system",
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "New user is created",
             "schema": {
-              "$ref": "#/definitions/Users"
+              "$ref": "#/definitions/User"
             }
           }
         }
       }
     },
+
     "/users/{userId}": {
       "parameters": [
         {
@@ -140,7 +198,25 @@
           "type": "string",
           "uniqueItems": true
         },
-        "name": {
+        "fullName": {
+          "type": "string"
+        }
+        ,
+        "email": {
+          "type": "string"
+        }
+        ,
+        "password": {
+          "type": "string"
+        }
+        ,
+        "fbToken": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         }
       }
