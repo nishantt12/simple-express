@@ -39,6 +39,22 @@
         }
       }
     },
+    "/users/delete/deleteAll": {
+      "delete": {
+        "summary": "Delete all users",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
     "/users/me/{userId}": {
       "get": {
         "parameters": [
@@ -99,14 +115,14 @@
         "tags": [
           "Signup Flow"
         ],
-        "description": "Create new user in system",
+        "description": "Login user",
         "parameters": [
           {
-            "name": "user",
+            "name": "login",
             "in": "body",
-            "description": "User that we want to create",
+            "description": "Login user",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Login"
             }
           }
         ],
@@ -115,7 +131,7 @@
         ],
         "responses": {
           "200": {
-            "description": "New user is created",
+            "description": "User Logged in",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -248,12 +264,102 @@
         },
         "phone": {
           "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "googleId": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "googleToken": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "string"
+        },
+        "fbId": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "school": {
+            "type": "object",
+            "properties":{
+            "schoolName":{
+              "type": "string"
+            },
+            "schoolePincode":{
+              "type": "string"
+            },
+            "class":{
+              "type": "string"
+            }
+            ,
+            "section":{
+              "type": "string"
+            }
+            ,
+            "state":{
+              "type": "string"
+            }
+          }
+        },
+        "college": {
+          "type": "object",
+          "properties":{
+          "collegeName":{
+            "type": "string"
+          },
+          "course":{
+            "type": "string"
+          },
+          "admissionYear":{
+            "type": "string"
+          }
+          ,
+          "class":{
+            "type": "string"
+          }
         }
+      }
       }
     },
     "Users": {
       "type": "array",
       "$ref": "#/definitions/User"
+    },
+    "Login": {
+      "required": [
+        "email",
+        "password",
+        "fbToken",
+        "googleToken"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+        ,
+        "password": {
+          "type": "string"
+        }
+        ,
+        "fbToken": {
+          "type": "string"
+        }
+        ,
+        "googleToken": {
+          "type": "string"
+        }
+        
+      }
     },
     "Otp": {
       "required": [
@@ -278,3 +384,4 @@
     }
   }
 }
+

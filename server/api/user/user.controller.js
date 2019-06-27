@@ -101,6 +101,20 @@ exports.destroy = function (req, res) {
 };
 
 
+/**
+ * Deletes a User from the DB.
+ *
+ * @param req
+ * @param res
+ */
+exports.deleteAll = function (req, res) {
+  User.remove({}, function(err, numberRemoved){
+    if (err) { return handleError(res, err); }
+    return res.status(204).send(numberRemoved +" Users removed");
+  })
+};
+
+
 
 
 
@@ -316,9 +330,7 @@ exports.create = function (req, res) {
   
     UserObj.findOneAsync({'_id': userId})
       .then(function (user) {
-  
         if (!user) return Errors.errorDBNotFound(res, 'User');
-  
         else {
           console.log(phone);
           return OtpController.resendOtp(req, res, phone);

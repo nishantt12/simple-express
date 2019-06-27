@@ -13,6 +13,7 @@ router.get('/:id', controller.show);
 // router.put('/:id', controller.update);
 
 router.delete('/:id', controller.destroy);
+router.delete('/delete/deleteAll', controller.deleteAll);
 
 
 router.get('/me/:id', auth.isAuthenticated(), controller.getMe);

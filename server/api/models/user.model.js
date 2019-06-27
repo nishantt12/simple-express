@@ -27,9 +27,7 @@ var UserSchema = new Schema({
     schoolName: String,
     schoolePincode: String,
     class: String,
-    sectione: String,
-    state: String,
-    state: String,
+    section: String,
     state: String
   },
   college:{
