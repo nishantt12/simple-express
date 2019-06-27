@@ -67,7 +67,7 @@
           }
         ],
         "tags": [
-          "Signup Flow"
+          "Signup"
         ],
         "summary": "Get all users in system",
         "responses": {
@@ -84,7 +84,7 @@
     "/users/create": {
       "post": {
         "tags": [
-          "Signup Flow"
+          "Signup"
         ],
         "description": "Create new user in system",
         "parameters": [
@@ -113,7 +113,7 @@
     "/users/login": {
       "post": {
         "tags": [
-          "Signup Flow"
+          "Signup"
         ],
         "description": "Login user",
         "parameters": [
@@ -140,10 +140,40 @@
       }
     },
 
+    "/users/userExists": {
+      "post": {
+        "tags": [
+          "Signup"
+        ],
+        "description": "User Exists",
+        "parameters": [
+          {
+            "name": "User Exists",
+            "in": "body",
+            "description": "User Exists",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User doesn't exists",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
     "/users/verifyOtp": {
       "post": {
         "tags": [
-          "Verify Otp"
+          "Otp"
         ],
         "description": "Verify otp sent to Device",
         "parameters": [
@@ -162,6 +192,66 @@
         "responses": {
           "200": {
             "description": "Otp is Verified",
+            "schema": {
+              "$ref": "#/definitions/Otp"
+            }
+          }
+        }
+      }
+    },
+
+    "/users/createOtp": {
+      "post": {
+        "tags": [
+          "Otp"
+        ],
+        "description": "Otp sent to Device",
+        "parameters": [
+          {
+            "name": "otp",
+            "in": "body",
+            "description": "Otp that we want to verify",
+            "schema": {
+              "$ref": "#/definitions/Otp"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp Created",
+            "schema": {
+              "$ref": "#/definitions/Otp"
+            }
+          }
+        }
+      }
+    },
+
+    "/users/resendOtp": {
+      "post": {
+        "tags": [
+          "Otp"
+        ],
+        "description": "Otp sent to Device",
+        "parameters": [
+          {
+            "name": "otp",
+            "in": "body",
+            "description": "Otp that we want to verify",
+            "schema": {
+              "$ref": "#/definitions/Otp"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp Resent",
             "schema": {
               "$ref": "#/definitions/Otp"
             }
@@ -368,10 +458,6 @@
         "phone"
       ],
       "properties": {
-        "_id": {
-          "type": "string",
-          "uniqueItems": true
-        },
         "otp": {
           "type": "string"
         }

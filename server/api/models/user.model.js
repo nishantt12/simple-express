@@ -22,6 +22,7 @@ var UserSchema = new Schema({
   fbToken: String,
   googleId: String,
   googleToken: String,
+  is_phone_verified: Boolean,
   gender: { type: String, enum: GENDERS },
   school: {
     schoolName: String,

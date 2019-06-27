@@ -59,6 +59,26 @@ otpController = {
       });
   },
 
+  createPhoneOtp: function (req, res, phone) {
+    var uuid = UUID.v1();
+    var token = uuid.substring(0, 4);
+    OTPObj.createAsync(
+      {
+        'phone': phone,
+        'token': token,
+        'verified_user': false
+      }
+    )
+      .then(function (otp) {
+        // if ( user.is_phone_verified ) email_scheduler.sendOtp( user.email, token );
+        // sms_scheduler.otpVerificationCode( otp.token, user, saveServiceName );
+        // phone = phone.split('+91 ')[1];
+
+        return Success.successResponse(res, {otp: otp.token}, 200);
+        // return Success.successResponse( res, { otp: token}, 200 );
+      });
+  },
+
   resendOtp: function (req, res, phone) {
     OTPObj.findOneAndUpdate(
       {'phone': phone, 'check_done': false},

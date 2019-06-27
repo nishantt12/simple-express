@@ -21,6 +21,7 @@ router.post('/create', controller.create);
 router.post('/userExists', controller.userExists);
 router.post('/verifyOtp', controller.verifyOtp);
 router.post('/resendOtp', controller.resendOtp);
+router.post('/createOtp', controller.createPhoneOtp);
 // router.post('/createOtp', controller.createOtp);
 router.post('/login', controller.login);
 

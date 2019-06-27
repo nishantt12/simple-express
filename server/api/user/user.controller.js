@@ -242,8 +242,8 @@ exports.create = function (req, res) {
   
   
     if (fbToken) {
-      fbVerification(user, res, fbToken);
-      // createUser(user, res);
+      // fbVerification(user, res, fbToken);
+      createUser(user, res);
     } else {
       createUser(user, res);
     }
@@ -276,6 +276,7 @@ exports.create = function (req, res) {
       }
     });
   }
+
   
   function createOtp(userId, phone, callBack) {
     // if (!userId) return Errors.errorMissingParam(res, 'user id');
@@ -299,10 +300,10 @@ exports.create = function (req, res) {
   exports.verifyOtp = function (req, res) {
     var phone = req.body.phone
     var otpClaim = req.body.otp
-    var userId = req.body._id;
+    // var userId = req.body._id;
   
     if (!phone) return Errors.errorMissingParam(res, 'phone');
-    if (!userId) return Errors.errorMissingParam(res, 'user id');
+    // if (!userId) return Errors.errorMissingParam(res, 'user id');
     if (!otpClaim) return Errors.errorMissingParam(res, 'otp');
   
   
@@ -312,37 +313,23 @@ exports.create = function (req, res) {
           Success.errorResponse(res, 'Incorrect otp', 500, 'Incorrect otp');
         }
         else {
-          User.update({_id: userId}, {$set: {"phone": phone, "is_phone_verified": true}}, function (err, user) {
+          // User.update({_id: userId}, {$set: {"phone": phone, "is_phone_verified": true}}, function (err, user) {
             Success.successResponse(res, {message: "done"}, 200);
-          });
+          // });
         }
       });
   
   };
 
+  exports.createPhoneOtp = function (req, res) {
+    var phone = req.body.phone
+    return OtpController.createPhoneOtp(req, res, phone);
+
+  };
+
   exports.resendOtp = function (req, res) {
     var phone = req.body.phone
-  
-    var userId = req.body.user_id;
-  
-    if (!phone) return Errors.errorMissingParam(res, 'phone');
-    if (!userId) return Errors.errorMissingParam(res, 'user id');
-  
-    UserObj.findOneAsync({'_id': userId})
-      .then(function (user) {
-        if (!user) return Errors.errorDBNotFound(res, 'User');
-        else {
-          console.log(phone);
-          return OtpController.resendOtp(req, res, phone);
-        }
-      })
-      // .catch( function( err ) {
-      //   return Errors.errorServer( res, err );
-      // } )
-      .error(function (err) {
-        // email_scheduler.error_mail( err );
-        return Errors.errorServer(res, err);
-      });
+    return OtpController.resendOtp(req, res, phone);
   };
 
 
