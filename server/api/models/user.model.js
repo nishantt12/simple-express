@@ -110,6 +110,36 @@ UserSchema
     });
   }, 'The specified email address is already in use.');
 
+  // Validate email is not taken
+UserSchema
+.path('phone')
+.validate(function (value, respond) {
+  var self = this;
+  this.constructor.findOne({phone: value}, function (err, user) {
+    if (err) throw err;
+    if (user) {
+      if (self.id === user.id) return respond(true);
+      return respond(false);
+    }
+    respond(true);
+  });
+}, 'The specified phone is already in use.');
+
+// Validate email is not taken
+UserSchema
+  .path('username')
+  .validate(function (value, respond) {
+    var self = this;
+    this.constructor.findOne({username: value}, function (err, user) {
+      if (err) throw err;
+      if (user) {
+        if (self.id === user.id) return respond(true);
+        return respond(false);
+      }
+      respond(true);
+    });
+  }, 'The specified username is already in use.');
+
 var validatePresenceOf = function (value) {
   return value && value.length;
 };
