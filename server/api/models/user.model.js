@@ -161,14 +161,18 @@ var validatePresenceOf = function (value) {
 UserSchema
   .pre('save', function (next) {
     var user = this;
-    bcrypt.hash(user.password, 10, function (err, hash) {
-      if (err) {
-        return next(err)
-      }
-      user.password = hash;
-      console.log("hash: " + hash);
+    if (user.password) {
+      bcrypt.hash(user.password, 10, function (err, hash) {
+        if (err) {
+          return next(err)
+        }
+        user.password = hash;
+        console.log("hash: " + hash);
+        next();
+      })
+    } else {
       next();
-    })
+    }
 
   });
 
@@ -196,14 +200,14 @@ UserSchema.methods = {
 
 
   Bauthenticate: function (password, cb) {
-    bcrypt.compare(password, this.password, function(err, result){
-      console.log("compare: "+result+"  "+password+"   "+this.password)
-        if(result){
-          cb(null, result)
-        }
-        else{
-          cb(err)
-        }
+    bcrypt.compare(password, this.password, function (err, result) {
+      console.log("compare: " + result + "  " + password + "   " + this.password)
+      if (result) {
+        cb(null, result)
+      }
+      else {
+        cb(err)
+      }
     })
   },
   /**
@@ -225,10 +229,10 @@ UserSchema.methods = {
    */
   encryptPassword: function (password) {
     if (!password) return '';
-    bcrypt.hash(user.password, 10, function (err, hash){
+    bcrypt.hash(user.password, 10, function (err, hash) {
       return hash;
     })
-    
+
   }
 };
 
