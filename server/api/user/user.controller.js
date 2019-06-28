@@ -275,6 +275,7 @@ exports.create = function (req, res) {
   var googleToken = req.body.googleToken;
   var username = req.body.username;
   var phone = req.body.phone;
+  var password = req.body.password;
 
 
   console.log(req.body.email);
@@ -294,15 +295,18 @@ exports.create = function (req, res) {
   }
 
 
-  if (fbToken) {
+  if (password) {
     // fbVerification(user, res, fbToken);
+    createUser(user, res);
+  }
+  else if (fbToken) {
     createUser(user, res);
   }
   else if (googleToken) {
     createUser(user, res);
   }
   else {
-    createUser(user, res);
+    return Errors.errorMissingParam(res, 'password');
   }
 
 };
