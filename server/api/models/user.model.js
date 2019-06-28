@@ -3,14 +3,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var bcrypt = require('bcrypt');
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 const GENDERS = ["M", "F"];
 
 var UserSchema = new Schema({
-  fullName: {type: String, required: true},
-  username: {type: String, required: true},
-  email: {type: String, lowercase: true},
+  fullName: { type: String, required: true },
+  username: { type: String, required: true },
+  email: { type: String, lowercase: true },
   password: String,
   phone: String,
   password: String,
@@ -31,13 +32,13 @@ var UserSchema = new Schema({
     section: String,
     state: String
   },
-  college:{
+  college: {
     collegeName: String,
     course: String,
     admissionYear: String,
     class: String,
   }
- 
+
 });
 
 
@@ -100,7 +101,7 @@ UserSchema
   .path('email')
   .validate(function (value, respond) {
     var self = this;
-    this.constructor.findOne({email: value}, function (err, user) {
+    this.constructor.findOne({ email: value }, function (err, user) {
       if (err) throw err;
       if (user) {
         if (self.id === user.id) return respond(true);
@@ -110,27 +111,27 @@ UserSchema
     });
   }, 'The specified email address is already in use.');
 
-  // Validate email is not taken
+// Validate email is not taken
 UserSchema
-.path('phone')
-.validate(function (value, respond) {
-  var self = this;
-  this.constructor.findOne({phone: value}, function (err, user) {
-    if (err) throw err;
-    if (user) {
-      if (self.id === user.id) return respond(true);
-      return respond(false);
-    }
-    respond(true);
-  });
-}, 'The specified phone is already in use.');
+  .path('phone')
+  .validate(function (value, respond) {
+    var self = this;
+    this.constructor.findOne({ phone: value }, function (err, user) {
+      if (err) throw err;
+      if (user) {
+        if (self.id === user.id) return respond(true);
+        return respond(false);
+      }
+      respond(true);
+    });
+  }, 'The specified phone is already in use.');
 
 // Validate email is not taken
 UserSchema
   .path('username')
   .validate(function (value, respond) {
     var self = this;
-    this.constructor.findOne({username: value}, function (err, user) {
+    this.constructor.findOne({ username: value }, function (err, user) {
       if (err) throw err;
       if (user) {
         if (self.id === user.id) return respond(true);
@@ -155,8 +156,29 @@ var validatePresenceOf = function (value) {
 //       next(new Error('Invalid password'));
 //     else
 //       next();
-//   });
+//   });e
 
+UserSchema
+  .pre('save', function (next) {
+    var user = this;
+    bcrypt.hash(user.password, 10, function (err, hash) {
+      if (err) {
+        return next(err)
+      }
+      user.password = hash;
+      console.log("hash: " + hash);
+      next();
+    })
+
+  });
+
+
+UserSchema.set('toJSON', {
+  transform: function (doc, ret, opt) {
+    delete ret['password']
+    return ret
+  }
+});
 /**
  * Methods
  */
@@ -172,6 +194,18 @@ UserSchema.methods = {
     return this.encryptPassword(plainText) === this.password;
   },
 
+
+  Bauthenticate: function (password, cb) {
+    bcrypt.compare(password, this.password, function(err, result){
+      console.log("compare: "+result+"  "+password+"   "+this.password)
+        if(result){
+          cb(null, result)
+        }
+        else{
+          cb(err)
+        }
+    })
+  },
   /**
    * Make salt
    *
@@ -190,9 +224,11 @@ UserSchema.methods = {
    * @api public
    */
   encryptPassword: function (password) {
-    if (!password || !this.salt) return '';
-    var salt = new Buffer(this.salt, 'base64');
-    return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+    if (!password) return '';
+    bcrypt.hash(user.password, 10, function (err, hash){
+      return hash;
+    })
+    
   }
 };
 
