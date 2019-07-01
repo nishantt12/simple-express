@@ -4,8 +4,7 @@ var express = require('express');
 var chalk = require('chalk');
 var config = require('./config/environment');
 var mongoose = require('mongoose');
-var swaggerUi = require('swagger-ui-express'),
-    swaggerDocument = require('./swagger/swagger.json');
+
 
 mongoose.connect(config.mongo.uri, config.mongo.options);
 
@@ -15,11 +14,6 @@ var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
-if(process.env.IP){
-  swaggerDocument.host = process.env.IP+":9000";
-}
-
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 console.log("env: "+process.env.NODE_ENV+"  "+app.get('env'));
 
