@@ -148,16 +148,6 @@ var validatePresenceOf = function (value) {
 /**
  * Pre-save hook
  */
-// UserSchema
-//   .pre('save', function (next) {
-//     if (!this.isNew) return next();
-//
-//     if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)
-//       next(new Error('Invalid password'));
-//     else
-//       next();
-//   });e
-
 UserSchema
   .pre('save', function (next) {
     var user = this;

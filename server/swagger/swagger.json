@@ -139,7 +139,6 @@
         }
       }
     },
-
     "/users/userExists": {
       "post": {
         "tags": [

@@ -115,12 +115,7 @@ exports.deleteAll = function (req, res) {
 };
 
 
-
-
-
-
 //Signup flow
-
 function findByEmail(email) {
   console.log("findByEmail " + email);
   return User.findOne({ 'email': email });
