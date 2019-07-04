@@ -255,8 +255,9 @@ exports.userExists = function (req, res) {
         }, 200);
       }
       else {
-        Success.errorResponse(res, "user already exists, please login", 500, "user already exists, please login");
-      }
+        return Success.successResponse(res, {
+          'new_user': false
+        }, 200);      }
     });
 
 };
