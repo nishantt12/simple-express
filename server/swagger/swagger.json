@@ -169,6 +169,36 @@
       }
     },
 
+    "/users/userValidation": {
+      "post": {
+        "tags": [
+          "Signup"
+        ],
+        "description": "User userValidation",
+        "parameters": [
+          {
+            "name": "User userValidation",
+            "in": "body",
+            "description": "User userValidation",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User doesn't exists",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
     "/users/verifyOtp": {
       "post": {
         "tags": [
@@ -437,6 +467,10 @@
         }
         ,
         "password": {
+          "type": "string"
+        }
+        ,
+        "phone": {
           "type": "string"
         }
         ,

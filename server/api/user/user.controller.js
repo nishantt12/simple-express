@@ -121,6 +121,10 @@ function findByEmail(email) {
   return User.findOne({ 'email': email });
 }
 
+function findByPhone(phone) {
+  return User.findOne({ 'phone': phone });
+}
+
 function findByUserName(username) {
   console.log("findByUserName " + username);
   return User.findOne({ 'username': username });
@@ -257,7 +261,50 @@ exports.userExists = function (req, res) {
       else {
         return Success.successResponse(res, {
           'new_user': false
-        }, 200);      }
+        }, 200);
+      }
+    });
+
+};
+
+exports.userValidation = function (req, res) {
+  var email = req.body.email;
+  var phone = req.body.phone;
+  if (!email) {
+    return Errors.errorMissingParam(res, 'email');
+  }
+
+  if (!phone) {
+    return Errors.errorMissingParam(res, 'phone');
+  }
+
+  var errorMessage;
+  findByEmail(email)
+    .then(function (user) {
+      if (user) {
+        errorMessage = "email id already in use ";
+      }
+
+      findByPhone(phone)
+        .then(function (userPhone) {
+          if (userPhone) {
+            if (errorMessage) {
+              errorMessage += "and phone number already in use"
+            }
+            else {
+              errorMessage = "phone number already in use"
+            }
+            Success.errorResponse(res, errorMessage, 500, errorMessage);
+          }
+          else if (errorMessage) {
+            Success.errorResponse(res, errorMessage, 500, errorMessage);
+          }
+          else {
+            return Success.successResponse(res, {
+              'new_user': true
+            }, 200);
+          }
+        })
     });
 
 };

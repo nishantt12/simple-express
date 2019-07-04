@@ -19,6 +19,8 @@ router.delete('/delete/deleteAll', controller.deleteAll);
 router.get('/me/:id', auth.isAuthenticated(), controller.getMe);
 router.post('/create', controller.create);
 router.post('/userExists', controller.userExists);
+router.post('/userValidation', controller.userValidation);
+
 router.post('/verifyOtp', controller.verifyOtp);
 router.post('/resendOtp', controller.resendOtp);
 router.post('/createOtp', controller.createPhoneOtp);
