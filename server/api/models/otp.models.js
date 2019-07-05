@@ -7,7 +7,7 @@ var OTPSchema = new Schema({
   phone: { type : String },
   token: String,
   check_done: { type: Boolean, default: false },	   // true only if otp verification done
-  service: { type: String },                         // name of the service eg. exotel, mgage
+  service: { type: String },                         // name of the service eg. twilio
   resend: { type: Number, default: 0 },              // number resend otps
   verified_user: { type: Boolean, default: false },  // true if he is old user.
   updated_at: { type: Date },

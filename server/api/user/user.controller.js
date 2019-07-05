@@ -57,12 +57,6 @@ exports.show = function (req, res) {
  * @param req
  * @param res
  */
-// exports.create = function (req, res) {
-//   User.create(req.body, function (err, user) {
-//     if (err) { return handleError(res, err); }
-//     return res.status(201).json(user);
-//   });
-// };
 
 /**
  * Updates an existing User in the DB.
@@ -339,7 +333,6 @@ exports.create = function (req, res) {
 
 
   if (password) {
-    // fbVerification(user, res, fbToken);
     createUser(user, res);
   }
   else if (fbToken) {
@@ -377,7 +370,6 @@ function createUser(user, res) {
           'token': token,
           'user': user
         };
-        // Email.welcome(user.email);
         return Success.successResponse(res, response, 200);
       });
     }
@@ -386,13 +378,9 @@ function createUser(user, res) {
 
 
 function createOtp(userId, phone, callBack) {
-  // if (!userId) return Errors.errorMissingParam(res, 'user id');
-  // if (!phone) return Errors.errorMissingParam(res, 'phone');
-
   UserObj.findOneAsync({ '_id': userId })
     .then(function (user) {
       if (user) {
-        // if ( isResend ) return OtpController.resendOtp( req, res, user );
         OtpController.createOtp(phone, callBack);
       }
 
@@ -407,12 +395,9 @@ function createOtp(userId, phone, callBack) {
 exports.verifyOtp = function (req, res) {
   var phone = req.body.phone
   var otpClaim = req.body.otp
-  // var userId = req.body._id;
 
   if (!phone) return Errors.errorMissingParam(res, 'phone');
-  // if (!userId) return Errors.errorMissingParam(res, 'user id');
   if (!otpClaim) return Errors.errorMissingParam(res, 'otp');
-
 
   return OtpController.verifyOtpPromise(phone, otpClaim)
     .then(function (verified) {
@@ -420,9 +405,7 @@ exports.verifyOtp = function (req, res) {
         Success.errorResponse(res, 'Incorrect otp', 500, 'Incorrect otp');
       }
       else {
-        // User.update({_id: userId}, {$set: {"phone": phone, "is_phone_verified": true}}, function (err, user) {
         Success.successResponse(res, { message: "done" }, 200);
-        // });
       }
     });
 

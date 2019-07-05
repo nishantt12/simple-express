@@ -9,7 +9,7 @@ async def main():
             requests.get, 
             'http://localhost:9000/api/users'
         )
-        for i in range(2000)
+        for i in range(20000000)
     ]
     for response in await asyncio.gather(*futures):
         pass
