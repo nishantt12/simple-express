@@ -37,9 +37,7 @@
             }
           }
         }
-      }
-    },
-    "/users/delete/deleteAll": {
+      },
       "delete": {
         "summary": "Delete all users",
         "tags": [
@@ -48,6 +46,33 @@
         "responses": {
           "200": {
             "description": "User is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Signup"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -75,36 +100,6 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/Users"
-            }
-          }
-        }
-      }
-    },
-
-    "/users/create": {
-      "post": {
-        "tags": [
-          "Signup"
-        ],
-        "description": "Create new user in system",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "description": "User that we want to create",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "New user is created",
-            "schema": {
-              "$ref": "#/definitions/User"
             }
           }
         }
@@ -139,7 +134,7 @@
         }
       }
     },
-    "/users/userExists": {
+    "/users/exists": {
       "post": {
         "tags": [
           "Signup"
@@ -169,7 +164,7 @@
       }
     },
 
-    "/users/userValidation": {
+    "/users/valid": {
       "post": {
         "tags": [
           "Signup"
@@ -199,7 +194,7 @@
       }
     },
 
-    "/users/verifyOtp": {
+    "/users/otp/verify": {
       "post": {
         "tags": [
           "Otp"
@@ -229,7 +224,7 @@
       }
     },
 
-    "/users/createOtp": {
+    "/users/otp/create": {
       "post": {
         "tags": [
           "Otp"
@@ -259,7 +254,7 @@
       }
     },
 
-    "/users/resendOtp": {
+    "/users/otp/resend": {
       "post": {
         "tags": [
           "Otp"
