@@ -37,8 +37,23 @@ var UserSchema = new Schema({
     course: String,
     admissionYear: String,
     class: String,
+  },
+  followersCount: Number,
+  followingsCount: Number,
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
+  ,
+  followings: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
+  ,
+  trainer:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Trainer'
   }
-
 });
 
 

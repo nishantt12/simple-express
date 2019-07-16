@@ -480,5 +480,16 @@ function findUsersUtil(whereQuery, selectedOptions, limit, sortBy, skip, cb) {  
     .exec(function (err, users) {
       cb(null, users)
     });
+}
+
+
+//social
+
+exports.follow = function(req, res){
+  var to = req.body.to
+  var from = req.body.from
+
+  
+
 
 }

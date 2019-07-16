@@ -80,6 +80,127 @@
         }
       }
     },
+    "/vyayams": {
+      "get": {
+        "tags": [
+          "Vyayams"
+        ],
+        "summary": "Get all Vyayams in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Vyayams"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete all Vyayams",
+        "tags": [
+          "Vyayams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Vyayam is deleted",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vyayams"
+        ],
+        "description": "Create new Vyayam in system",
+        "parameters": [
+          {
+            "name": "vyayam",
+            "in": "body",
+            "description": "Vyayam that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Vyayam is created",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        }
+      }
+    },
+
+    "/vyayams/{vyayamId}": {
+      "parameters": [
+        {
+          "name": "vyayamId",
+          "in": "path",
+          "required": true,
+          "description": "ID of vyayam that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Vyayams"
+        ],
+        "summary": "Get Vyayam with given ID",
+        "responses": {
+          "200": {
+            "description": "Vyayam is found",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Vyayam with given ID",
+        "tags": [
+          "Vyayams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Vyayam is deleted",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Vyayam with give ID",
+        "tags": [
+          "Vyayams"
+        ],
+        "parameters": [
+          {
+            "name": "vyayam",
+            "in": "body",
+            "description": "Vyayam with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/Vyayam"
+            }
+          }
+        }
+      }
+    },
     "/users/me/{userId}": {
       "get": {
         "parameters": [
@@ -163,7 +284,6 @@
         }
       }
     },
-
     "/users/valid": {
       "post": {
         "tags": [
@@ -193,7 +313,6 @@
         }
       }
     },
-
     "/users/otp/verify": {
       "post": {
         "tags": [
@@ -223,7 +342,6 @@
         }
       }
     },
-
     "/users/otp/create": {
       "post": {
         "tags": [
@@ -253,7 +371,6 @@
         }
       }
     },
-
     "/users/otp/resend": {
       "post": {
         "tags": [
@@ -283,7 +400,6 @@
         }
       }
     },
-
     "/users/{userId}": {
       "parameters": [
         {
@@ -360,16 +476,13 @@
         },
         "fullName": {
           "type": "string"
-        }
-        ,
+        },
         "email": {
           "type": "string"
-        }
-        ,
+        },
         "password": {
           "type": "string"
-        }
-        ,
+        },
         "fbToken": {
           "type": "string"
         },
@@ -404,45 +517,42 @@
           "type": "string"
         },
         "school": {
-            "type": "object",
-            "properties":{
-            "schoolName":{
+          "type": "object",
+          "properties": {
+            "schoolName": {
               "type": "string"
             },
-            "schoolePincode":{
+            "schoolePincode": {
               "type": "string"
             },
-            "class":{
+            "class": {
               "type": "string"
-            }
-            ,
-            "section":{
+            },
+            "section": {
               "type": "string"
-            }
-            ,
-            "state":{
+            },
+            "state": {
               "type": "string"
             }
           }
         },
         "college": {
           "type": "object",
-          "properties":{
-          "collegeName":{
-            "type": "string"
-          },
-          "course":{
-            "type": "string"
-          },
-          "admissionYear":{
-            "type": "string"
-          }
-          ,
-          "class":{
-            "type": "string"
+          "properties": {
+            "collegeName": {
+              "type": "string"
+            },
+            "course": {
+              "type": "string"
+            },
+            "admissionYear": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            }
           }
         }
-      }
       }
     },
     "Users": {
@@ -459,24 +569,19 @@
       "properties": {
         "email": {
           "type": "string"
-        }
-        ,
+        },
         "password": {
           "type": "string"
-        }
-        ,
+        },
         "phone": {
           "type": "string"
-        }
-        ,
+        },
         "fbToken": {
           "type": "string"
-        }
-        ,
+        },
         "googleToken": {
           "type": "string"
         }
-        
       }
     },
     "Otp": {
@@ -488,14 +593,60 @@
       "properties": {
         "otp": {
           "type": "string"
-        }
-        ,
+        },
         "phone": {
           "type": "string"
         }
-        
       }
+    },
+    "Vyayam": {
+      "required": [
+        "_id",
+        "name",
+        "url"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "bodyPart": {
+          "type": "string"
+        },
+        "vyayamType": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "muscleGroup": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "muscleId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Vyayams": {
+      "type": "array",
+      "$ref": "#/definitions/Vyayam"
     }
   }
 }
-

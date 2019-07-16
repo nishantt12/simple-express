@@ -22,4 +22,7 @@ router.post('/otp/resend', controller.resendOtp);
 router.post('/otp', controller.createPhoneOtp);
 router.post('/login', controller.login);
 
+router.post('/follow', controller.follow);
+
+
 module.exports = router;
