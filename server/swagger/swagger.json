@@ -201,6 +201,66 @@
         }
       }
     },
+
+    "/planner": {
+      "get": {
+        "tags": [
+          "Planner"
+        ],
+        "summary": "Get all Planner in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Planner"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete all Planner",
+        "tags": [
+          "Planner"
+        ],
+        "responses": {
+          "200": {
+            "description": "Planner is deleted",
+            "schema": {
+              "$ref": "#/definitions/Planner"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Planner"
+        ],
+        "description": "Create new Planner in system",
+        "parameters": [
+          {
+            "name": "Planner",
+            "in": "body",
+            "description": "Planner that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Planner"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Planner is created",
+            "schema": {
+              "$ref": "#/definitions/Planner"
+            }
+          }
+        }
+      }
+    },
+
+
     "/users/me/{userId}": {
       "get": {
         "parameters": [
@@ -647,6 +707,64 @@
     "Vyayams": {
       "type": "array",
       "$ref": "#/definitions/Vyayam"
+    },
+
+    "Planner": {
+      "required": [
+        "_id",
+        "name"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "vyayam": {
+                "type": "array",
+                "items":{
+                  "type": "object",
+                  "properties":{
+                    "id":{
+                      "type": "string"
+                    },
+                    "name":{
+                      "type": "string"
+                    },
+                    "duration":{
+                      "type": "integer"
+                    },
+                    "setCount":{
+                      "type": "integer"
+                    }
+
+
+                  }
+
+                }
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+    ,
+    "Planners": {
+      "type": "array",
+      "$ref": "#/definitions/Planner"
     }
   }
 }

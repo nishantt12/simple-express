@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Vyayam = require('../models/vyayam.model');
+var Planner = require('../models/planner.model');
 var Promise = require('bluebird');
 
 var Errors = require('../../error');
@@ -14,78 +14,78 @@ function handleError(res, err) {
 }
 
 /**
- * Get list of Vyayam
+ * Get list of Planner
  *
  * @param req
  * @param res
  */
 exports.index = function (req, res) {
-  Vyayam.find(function (err, Vyayams) {
+  Planner.find(function (err, Planners) {
     if (err) { return handleError(res, err); }
 
-    return Success.successResponse(res, Vyayams, 200);
+    return Success.successResponse(res, Planners, 200);
     // return res.status(200).json();
   });
 };
 
 /**
- * Get a single Vyayam
+ * Get a single Planner
  *
  * @param req
  * @param res
  */
 exports.show = function (req, res) {
-  Vyayam.findById(req.params.id, function (err, Vyayam) {
+  Planner.findById(req.params.id, function (err, Planner) {
     if (err) { return handleError(res, err); }
-    if (!Vyayam) { return res.status(404).end(); }
-    return res.status(200).json(Vyayam);
+    if (!Planner) { return res.status(404).end(); }
+    return res.status(200).json(Planner);
   });
 };
 
 /**
- * Creates a new Vyayam in the DB.
+ * Creates a new Planner in the DB.
  *
  * @param req
  * @param res
  */
 
 exports.create = function (req, res) {
-  Vyayam.create(req.body, function (err, vyayam) {
+  Planner.create(req.body, function (err, Planner) {
     if (err) { return handleError(res, err); }
-    return res.status(201).json(vyayam);
+    return res.status(201).json(Planner);
   });
 };
 
 /**
- * Updates an existing Vyayam in the DB.
+ * Updates an existing Planner in the DB.
  *
  * @param req
  * @param res
  */
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
-  Vyayam.findById(req.params.id, function (err, Vyayam) {
+  Planner.findById(req.params.id, function (err, Planner) {
     if (err) { return handleError(res, err); }
-    if (!Vyayam) { return res.status(404).end(); }
-    var updated = _.merge(Vyayam, req.body);
+    if (!Planner) { return res.status(404).end(); }
+    var updated = _.merge(Planner, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(Vyayam);
+      return res.status(200).json(Planner);
     });
   });
 };
 
 /**
- * Deletes a Vyayam from the DB.
+ * Deletes a Planner from the DB.
  *
  * @param req
  * @param res
  */
 exports.destroy = function (req, res) {
-  Vyayam.findById(req.params.id, function (err, Vyayam) {
+  Planner.findById(req.params.id, function (err, Planner) {
     if (err) { return handleError(res, err); }
-    if (!Vyayam) { return res.status(404).end(); }
-    Vyayam.remove(function (err) {
+    if (!Planner) { return res.status(404).end(); }
+    Planner.remove(function (err) {
       if (err) { return handleError(res, err); }
       return res.status(204).end();
     });
@@ -94,15 +94,15 @@ exports.destroy = function (req, res) {
 
 
 /**
- * Deletes a Vyayam from the DB.
+ * Deletes a Planner from the DB.
  *
  * @param req
  * @param res
  */
 exports.deleteAll = function (req, res) {
-  Vyayam.remove({}, function (err, numberRemoved) {
+  Planner.remove({}, function (err, numberRemoved) {
     if (err) { return handleError(res, err); }
-    return res.status(204).send(numberRemoved + " Vyayams removed");
+    return res.status(204).send(numberRemoved + " Planners removed");
   })
 };
 
