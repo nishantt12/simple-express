@@ -261,6 +261,65 @@
     },
 
 
+    "/userPlanner": {
+      "get": {
+        "tags": [
+          "Userplanner"
+        ],
+        "summary": "Get all Planner in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Userplanner"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete all Userplanner",
+        "tags": [
+          "Userplanner"
+        ],
+        "responses": {
+          "200": {
+            "description": "Userplanner is deleted",
+            "schema": {
+              "$ref": "#/definitions/Userplanner"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Userplanner"
+        ],
+        "description": "Create new Userplanner in system",
+        "parameters": [
+          {
+            "name": "Userplanner",
+            "in": "body",
+            "description": "Userplanner that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Userplanner"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Userplanner is created",
+            "schema": {
+              "$ref": "#/definitions/Userplanner"
+            }
+          }
+        }
+      }
+    },
+
+
     "/users/me/{userId}": {
       "get": {
         "parameters": [
@@ -765,6 +824,29 @@
     "Planners": {
       "type": "array",
       "$ref": "#/definitions/Planner"
+    },
+
+    "UserPlanner": {
+      "required": [
+        "_id",
+        "name"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "weeks": {
+          "type": "array",
+          "$ref": "#/definitions/Planner"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
     }
   }
 }

@@ -42,6 +42,14 @@ exports.show = function (req, res) {
   });
 };
 
+exports.getDefault = function (callback) {
+  Planner.findById("5d33086caa7b2c7a95d19e7b", function (err, Planner) {
+    if (err) { callback(""); }
+    if (!Planner) {  callback(""); }
+    return  callback(Planner);
+  });
+};
+
 /**
  * Creates a new Planner in the DB.
  *

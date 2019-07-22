@@ -8,10 +8,13 @@ var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 var Promise = require('bluebird');
 
+
 var Errors = require('../../error');
 var Success = require('../../responses');
 
 var OtpController = require('../otp');
+
+var UserPlanner = require('../userPlanner/userPlanner.controller');
 
 var UserObj = Promise.promisifyAll(User);
 
@@ -44,6 +47,8 @@ exports.index = function (req, res) {
  * @param res
  */
 exports.show = function (req, res) {
+  UserPlanner.create(req);
+
   User.findById(req.params.id, function (err, user) {
     if (err) { return handleError(res, err); }
     if (!user) { return res.status(404).end(); }
@@ -485,11 +490,11 @@ function findUsersUtil(whereQuery, selectedOptions, limit, sortBy, skip, cb) {  
 
 //social
 
-exports.follow = function(req, res){
+exports.follow = function (req, res) {
   var to = req.body.to
   var from = req.body.from
 
-  
+
 
 
 }

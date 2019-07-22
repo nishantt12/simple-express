@@ -1,14 +1,19 @@
 'use strict';
 
 var _ = require('lodash');
-var Planner = require('../models/userPlanner.model');
+var UserPlanner = require('../models/userPlanner.model');
+
+var Planner = require('../planner');
 var Promise = require('bluebird');
 
 var Errors = require('../../error');
 var Success = require('../../responses');
 
+
+var Planner = require('../planner/planner.controller');
+
 var date = new Date();
-var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
 
@@ -17,78 +22,78 @@ function handleError(res, err) {
 }
 
 /**
- * Get list of Planner
+ * Get list of UserPlanner
  *
  * @param req
  * @param res
  */
 exports.index = function (req, res) {
-  Planner.find(function (err, Planners) {
+  UserPlanner.find(function (err, UserPlanners) {
     if (err) { return handleError(res, err); }
 
-    return Success.successResponse(res, Planners, 200);
+    return Success.successResponse(res, UserPlanners, 200);
     // return res.status(200).json();
   });
 };
 
 /**
- * Get a single Planner
+ * Get a single UserPlanner
  *
  * @param req
  * @param res
  */
 exports.show = function (req, res) {
-  Planner.findById(req.params.id, function (err, Planner) {
+  UserPlanner.findById(req.params.id, function (err, UserPlanner) {
     if (err) { return handleError(res, err); }
-    if (!Planner) { return res.status(404).end(); }
-    return res.status(200).json(Planner);
+    if (!UserPlanner) { return res.status(404).end(); }
+    return res.status(200).json(UserPlanner);
   });
 };
 
 /**
- * Creates a new Planner in the DB.
+ * Creates a new UserPlanner in the DB.
  *
  * @param req
  * @param res
  */
 
-exports.create = function (req, res) {
-  Planner.create(req.body, function (err, Planner) {
-    if (err) { return handleError(res, err); }
-    return res.status(201).json(Planner);
-  });
+exports.create = function (req) {
+  Planner.getDefault(function (planner) {
+    // console.log("planner: " + planner);
+    createPlan(4, planner);
+  })
 };
 
 /**
- * Updates an existing Planner in the DB.
+ * Updates an existing UserPlanner in the DB.
  *
  * @param req
  * @param res
  */
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
-  Planner.findById(req.params.id, function (err, Planner) {
+  UserPlanner.findById(req.params.id, function (err, UserPlanner) {
     if (err) { return handleError(res, err); }
-    if (!Planner) { return res.status(404).end(); }
-    var updated = _.merge(Planner, req.body);
+    if (!UserPlanner) { return res.status(404).end(); }
+    var updated = _.merge(UserPlanner, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(Planner);
+      return res.status(200).json(UserPlanner);
     });
   });
 };
 
 /**
- * Deletes a Planner from the DB.
+ * Deletes a UserPlanner from the DB.
  *
  * @param req
  * @param res
  */
 exports.destroy = function (req, res) {
-  Planner.findById(req.params.id, function (err, Planner) {
+  UserPlanner.findById(req.params.id, function (err, UserPlanner) {
     if (err) { return handleError(res, err); }
-    if (!Planner) { return res.status(404).end(); }
-    Planner.remove(function (err) {
+    if (!UserPlanner) { return res.status(404).end(); }
+    UserPlanner.remove(function (err) {
       if (err) { return handleError(res, err); }
       return res.status(204).end();
     });
@@ -97,29 +102,53 @@ exports.destroy = function (req, res) {
 
 
 /**
- * Deletes a Planner from the DB.
+ * Deletes a UserPlanner from the DB.
  *
  * @param req
  * @param res
  */
 exports.deleteAll = function (req, res) {
-  Planner.remove({}, function (err, numberRemoved) {
+  UserPlanner.remove({}, function (err, numberRemoved) {
     if (err) { return handleError(res, err); }
-    return res.status(204).send(numberRemoved + " Planners removed");
+    return res.status(204).send(numberRemoved + " UserPlanners removed");
   })
 };
 
 
+function createPlan(weeksCount, planner) {
+  var userPlanner = {};
+  userPlanner.name = planner.name;
+  userPlanner.start_date = date;
+  userPlanner.weeksCount = weeksCount;
 
+  var weeks = [];
+  for (var i = 0; i < weeksCount; i++) {
 
-for (i = 0; i < 4 * 7; i++) {
-  console.log(date);
-  if (!isWeekend(date)) {
-      console.log(days[date.getDay()]);
+    var date = new Date();
+    var week = {};
+    date.setDate(date.getDate() + (i * 7));
+    week.date = date;
+    week.plan = planner.plan;
+    weeks.push(week);
+    console.log(date);
   }
+  userPlanner.weeks = weeks;
 
-  date.setDate(date.getDate() + 1);
+  userPlanner.end_date = date;
+  UserPlanner.create(userPlanner, function (err, Planner) {
+
+
+
+    if (err) { console.log(err) }
+    else {
+      console.log(Planner);
+    }
+
+  });
+
 }
+
+
 
 
 function isWeekend(date) {
