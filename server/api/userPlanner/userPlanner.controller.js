@@ -16,6 +16,7 @@ var date = new Date();
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
+const WEEKS_FOUR = 4;
 
 function handleError(res, err) {
   return res.status(500).send(err);
@@ -57,10 +58,10 @@ exports.show = function (req, res) {
  * @param res
  */
 
-exports.create = function (req) {
+exports.create = function (userId) {
   Planner.getDefault(function (planner) {
     // console.log("planner: " + planner);
-    createPlan(4, planner);
+    createPlan(WEEKS_FOUR, planner, userId);
   })
 };
 
@@ -115,9 +116,10 @@ exports.deleteAll = function (req, res) {
 };
 
 
-function createPlan(weeksCount, planner) {
+function createPlan(weeksCount, planner, userId) {
   var userPlanner = {};
   userPlanner.name = planner.name;
+  userPlanner.user_id = userId;
   userPlanner.start_date = date;
   userPlanner.weeksCount = weeksCount;
 
@@ -133,12 +135,9 @@ function createPlan(weeksCount, planner) {
     console.log(date);
   }
   userPlanner.weeks = weeks;
-
+  date.setDate(date.getDate() + (weeksCount * 7));
   userPlanner.end_date = date;
   UserPlanner.create(userPlanner, function (err, Planner) {
-
-
-
     if (err) { console.log(err) }
     else {
       console.log(Planner);

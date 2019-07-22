@@ -47,8 +47,6 @@ exports.index = function (req, res) {
  * @param res
  */
 exports.show = function (req, res) {
-  UserPlanner.create(req);
-
   User.findById(req.params.id, function (err, user) {
     if (err) { return handleError(res, err); }
     if (!user) { return res.status(404).end(); }
@@ -375,6 +373,7 @@ function createUser(user, res) {
           'token': token,
           'user': user
         };
+        UserPlanner.create(user._id);
         return Success.successResponse(res, response, 200);
       });
     }
