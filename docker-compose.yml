@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    container_name: simple-express
+    restart: always
+    build: .
+    ports:
+      - '3000:9000'
+    links:
+      - express-mongo
+  express-mongo:
+    container_name: express-mongo
+    image: mongo
+    ports:
+      - '27017:27017'
