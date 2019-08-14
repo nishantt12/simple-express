@@ -5,7 +5,7 @@ var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 
 var config = require('../config/environment');
-var User = require('../api/models/user.model');
+var User = require('../api/user/user.model.js');
 var validateJwt = expressJwt({ secret: config.secrets.session });
 
 /**

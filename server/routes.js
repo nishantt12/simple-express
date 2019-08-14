@@ -14,9 +14,6 @@ module.exports = function (app) {
 
   // API
   app.use('/api/users', require('./api/user'));
-  app.use('/api/vyayams', require('./api/vyayam'));
-  app.use('/api/planner', require('./api/planner'));
-  app.use('/api/userPlanner', require('./api/userPlanner'));
   app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use(function(req, res, next) {
     return res.status(404).send({message: 'Route'+req.url+' Not found.', reditectTo: 'http://'+host+':9000/swagger'});

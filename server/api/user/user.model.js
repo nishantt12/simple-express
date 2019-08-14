@@ -14,46 +14,11 @@ var UserSchema = new Schema({
   email: { type: String, lowercase: true },
   password: String,
   phone: String,
-  password: String,
   country: String,
   state: String,
   city: String,
-  pincode: String,
-  fbId: String,
-  fbToken: String,
-  googleId: String,
-  googleToken: String,
-  is_phone_verified: Boolean,
-  gender: { type: String, enum: GENDERS },
-  school: {
-    schoolName: String,
-    schoolePincode: String,
-    class: String,
-    section: String,
-    state: String
-  },
-  college: {
-    collegeName: String,
-    course: String,
-    admissionYear: String,
-    class: String,
-  },
-  followersCount: Number,
-  followingsCount: Number,
-  followers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }]
-  ,
-  followings: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }]
-  ,
-  trainer:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Trainer'
-  }
+  pincode: String
+  
 });
 
 
